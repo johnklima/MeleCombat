@@ -31,6 +31,7 @@ public class FoundPlayerState : State
         
         if(cone.playerIsVisible)
         {
+            Debug.Log("Player is Visible??");
             cone.navigation.target = cone.target ;
             isInState = true;
         }

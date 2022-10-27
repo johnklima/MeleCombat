@@ -5,14 +5,15 @@ using UnityEngine;
 public class IdleState : State
 {
     public override bool processState(Transform owner)
-    { 
-        if(base.processState(owner))
-        {
-            Debug.Log("Idle says a child is true");
+    {
+        bool testchild = base.processState(owner);
+        if(testchild)
+        {            
             isInState = false;
-            return isInState;
+            return testchild;
         }
 
+        //if nothing else is true, idle must be
         isInState = true;
         return isInState;
     }

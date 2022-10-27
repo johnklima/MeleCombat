@@ -8,26 +8,29 @@ public abstract class State : MonoBehaviour
     //am I actually in this state
     public bool isInState = false;
     
-    //for debugging to help sort what going on
+    //for debugging to help sort what's going on
     public string stateName = "base";
 
     public virtual bool processState(Transform owner)
     {
+              
 
         //all states will process child states first
         foreach (Transform child in transform)
         {
             State state = child.GetComponent<State>();
-            if (state.processState(owner))
-            {
-                Debug.Log("State Name True " + stateName);
-                return true;
+            bool teststate = state.processState(owner);
+            if (teststate)
+            {                
+                return teststate;
             }                
-            else
-                return false;
+           
         }
 
-        return false;
+        //abstract returns default false, overriden by the concrete class.
+        isInState = false;
+        return isInState;
+    
     }
 
 

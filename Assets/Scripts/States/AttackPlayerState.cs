@@ -9,10 +9,8 @@ public class AttackPlayerState : State
 
     public override bool processState(Transform owner)
     {
-
-        bool testchild = false;
-
-        testchild = base.processState(owner);
+         
+        bool testchild = base.processState(owner);
 
         if (testchild)
         {
