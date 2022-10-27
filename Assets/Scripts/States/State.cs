@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class State : MonoBehaviour
 {
     //am I actually in this state
-    public bool isInState = false;
+    public bool isInState;
     
     //for debugging to help sort what's going on
     public string stateName = "base";
@@ -21,7 +21,8 @@ public abstract class State : MonoBehaviour
             State state = child.GetComponent<State>();
             bool teststate = state.processState(owner);
             if (teststate)
-            {                
+            {
+                isInState = false;
                 return teststate;
             }                
            

@@ -19,9 +19,8 @@ public class DeadState : State
     public override bool processState(Transform owner)
     {
 
-        bool testchild = false;
-
-        testchild = base.processState(owner);
+        
+        bool testchild = base.processState(owner);
 
         if (testchild)
         {
@@ -30,9 +29,8 @@ public class DeadState : State
         }
                 
         if (isInState)
-            Debug.Log("processed INHERITED state " + stateName + " owner " + owner.name + " return " + isInState);
-        else
-            Debug.Log("processed INHERITED state Not Dead");
+            Debug.Log("processed INHERITED state Dead");
+        
 
         return isInState;
     }

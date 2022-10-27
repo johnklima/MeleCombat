@@ -11,11 +11,17 @@ public class StateTree : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         foreach (Transform child in transform)
         {
-            child.GetComponent<State>().processState(transform.parent);
+            bool testchild = child.GetComponent<State>().processState(transform.parent);
+            if (testchild)
+            {
+                //this is here to basically handle dead state, or any situation where we have multiple
+                //branches at the top of the state tree. Dead would be the most common occurance.
+                return;
+            }
 
         }
     }
