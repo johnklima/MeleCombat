@@ -29,14 +29,20 @@ public class AttackState : State
             if (!defaultWeapon.allowState)
             {
                 Debug.Log("DO ATTACK");
-                defaultWeapon.allowStateAndChildren(true);  //allow our weapons to actually process                
-                isInState = true;                           //only really happens once or twice, thereafter the weapons are true
-                                                            //only a small chance weapons wont occur the first process
+
+                //allow our weapons to actually process                
+                //only really happens once or twice, thereafter the weapons are true
+                //only a small chance weapons wont occur the first process,
+                //so arm all weapons and set the enemy from visibility cone
+                defaultWeapon.armWeapons(true, enemyCone.target.transform);  
+
+                isInState = true;
             }
 
+            
         }
         else
-            defaultWeapon.allowStateAndChildren(false);     //disallow if not in position
+            defaultWeapon.armWeapons(false, null);     //disallow if not in position
 
         return isInState;
         

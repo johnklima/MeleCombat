@@ -11,7 +11,7 @@ public class VizCone : MonoBehaviour
     public Navigation navigation;  //owner's navigation component to set target 
                                    //for the NavAgent Destination
 
-    public bool playerIsVisible = false;
+    public bool enemyIsVisible = false;
 
     void Start()
     {
@@ -25,10 +25,11 @@ public class VizCone : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {        
-        //are there any "players" in my viz cone?
-        if ( other.transform.gameObject.layer == LayerMask.NameToLayer("Players") )
+        //are there any "players" or NPCs in my viz cone?
+        if (    other.transform.gameObject.layer == LayerMask.NameToLayer("Players") 
+             || other.transform.gameObject.layer == LayerMask.NameToLayer("NPCs"))
         {
-            Debug.Log("NPC cones " + other.name);
+            Debug.Log("NPC/Player cones " + other.name);
 
             // Bit shift the index of the layer (7) to get a bit mask (the cool way)
             int layerMask = 1 << 7;  //which is the viz obstacles layer
@@ -54,7 +55,7 @@ public class VizCone : MonoBehaviour
             }
             else 
             {
-                playerIsVisible = true;
+                enemyIsVisible = true;
                 target = other.transform;
             }            
 

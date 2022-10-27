@@ -8,6 +8,8 @@ public class WeaponState : State
     public float attackDuration = 2.0f;
     public bool doWeapon = false;
 
+    public Transform theEnemy;
+
     public bool allowState = false;
     
     private MeshRenderer mesh;
@@ -20,28 +22,38 @@ public class WeaponState : State
     {
         if(attackTimer > 0 && Time.time - attackTimer < attackDuration)
         {
-            //keep attacking            
+            //keep attacking
+            
             return;
         }
         else
         {
             //stop attack
-            attackTimer = -1;
-            isInState = false;
-            mesh.enabled = false;
-            doWeapon = false;
+            resetState();
             return;
         }
     }
 
+    void resetState()
+    {
+        //set custom state properties to default values
+        attackTimer = -1;
+        isInState = false;
+        mesh.enabled = false;
+        doWeapon = false;
+    }
     
     public override bool processState(Transform owner)
     {
 
-        //stop all others in the case that this weapon is in use
+        //stop all others in the case that this weapon is in use.
+        //at a certain point the rubber meets the road, I am saying
+        //NO CHILD will have a chance to process until this state's
+        //timer is complete.
         if (doWeapon)
         {
             isInState = true;
+            owner.transform.LookAt(theEnemy.transform);
             return isInState;
         }
            
@@ -49,12 +61,10 @@ public class WeaponState : State
         bool testchild = base.processState(owner);
 
         if (testchild)
-        {
-            Debug.Log("weapon process child true " + stateName);
-            
-            mesh.enabled = false;
-            isInState = false;
-            doWeapon = false;
+        {            
+
+            //reset our custom state flags here
+            resetState();
 
             return testchild;
         }
@@ -65,11 +75,9 @@ public class WeaponState : State
             //for this, we could also process attack prior to processing the base
             //therefor base (children) only get processed if attack is true
 
-            mesh.enabled = false;
-            isInState = false;
-            doWeapon = false;
+            resetState();
 
-            return isInState;
+            return false;
 
         }
 
@@ -106,8 +114,10 @@ public class WeaponState : State
         return isInState;
 
     }
-    public void allowStateAndChildren(bool allow)
+    public void armWeapons(bool allow, Transform enemy)
     {
+
+        theEnemy = enemy;
 
         //no point to change allow if it is already set to allow, either true or false
         if (allow == allowState)
@@ -124,7 +134,7 @@ public class WeaponState : State
             WeaponState weapon = null;
             child.TryGetComponent<WeaponState>(out weapon);
             if (weapon)
-                weapon.allowStateAndChildren(allow);
+                weapon.armWeapons(allow, enemy);
         }
 
 

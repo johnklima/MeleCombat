@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StateTree : MonoBehaviour
 {
+
+    public Transform owner;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +17,7 @@ public class StateTree : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            bool testchild = child.GetComponent<State>().processState(transform.parent);
+            bool testchild = child.GetComponent<State>().processState(owner);
             if (testchild)
             {
                 //this is here to basically handle dead state, or any situation where we have multiple

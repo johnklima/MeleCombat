@@ -29,7 +29,7 @@ public class FoundState : State
 
         isInState = false;
         
-        if(cone.playerIsVisible)
+        if(cone.enemyIsVisible)
         {
             Debug.Log("Player is Visible??");
             cone.navigation.target = cone.target ;
